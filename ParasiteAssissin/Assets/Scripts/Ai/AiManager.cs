@@ -5,7 +5,7 @@ using UnityEngine;
 public class AiManager : MonoBehaviour {
     static public AiManager instance;
     
-    private ArrayList _aiEntitys;
+    public ArrayList _aiEntitys;
     
     private AiSystem _aiSystem;
 

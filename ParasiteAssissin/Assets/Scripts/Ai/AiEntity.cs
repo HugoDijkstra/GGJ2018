@@ -14,7 +14,7 @@ public class AiEntity : MonoBehaviour {
     private AiEntity target;
     private bool isInspecting;
 
-    private bool isWaiting;
+    public bool isWaiting;
 
     public Action<AiEntity, TileObject> OnWaitForNextTile;
     public Action<AiEntity, TileObject> OnAtTile;
@@ -37,7 +37,7 @@ public class AiEntity : MonoBehaviour {
 	}
 
     public void move() {
-        if (isInspecting) {
+        if (isInspecting || isWaiting) {
             return;
         }
 

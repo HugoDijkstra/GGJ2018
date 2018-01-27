@@ -13,5 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tier: 1
   isDoctor: 0
-  speed: 9
+  speed: 2
   color: {r: 0.034482718, g: 1, b: 0, a: 1}

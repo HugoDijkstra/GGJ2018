@@ -41,16 +41,18 @@ public class TileObject : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (represents.name != "Wall")
+            gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         sprRenderer = GetComponent<SpriteRenderer>();
         sprRenderer.sprite = represents.texture;
         sprRenderer.sortingLayerName = "Default";
         sprRenderer.sortingOrder = -10;
-        tierVisualizer = new GameObject();
+        /*tierVisualizer = new GameObject();
         tierVisualizer.transform.parent = transform;
         tierVisualizer.transform.localPosition = new Vector3(-0.5f, 0.5f);
         vizualizerMesh = tierVisualizer.AddComponent<TextMesh>();
         vizualizerMesh.text = tileTier.ToString();
-        vizualizerMesh.color = Color.green;
+        vizualizerMesh.color = Color.green;*/
 
 
         this.visited = false;
@@ -82,6 +84,6 @@ public class TileObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        vizualizerMesh.text = tileTier.ToString();
+       // vizualizerMesh.text = tileTier.ToString();
     }
 }
