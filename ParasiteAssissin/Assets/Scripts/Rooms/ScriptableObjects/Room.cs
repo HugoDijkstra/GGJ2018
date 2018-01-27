@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 [CreateAssetMenu()]
-public class Room : ScriptableObject
+public class Room
 {
+    public string name;
     public Vector2Int size;
     [SerializeField]
     public Tile[][] room;
@@ -13,7 +15,7 @@ public class Room : ScriptableObject
     public Tile[] tiles;
 
     public List<Vector2Int> doors;
-    private void OnEnable()
+    private Room()
     {
         if (tiles == null || tiles.Length != size.x * size.y)
         {
@@ -78,7 +80,7 @@ public class Room : ScriptableObject
         }
     }
 
-    private void OnDisable()
+    ~Room()
     {
         int index = 0;
         if (room != null)

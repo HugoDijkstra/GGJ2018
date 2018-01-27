@@ -27,6 +27,9 @@ public class RoomEditor : MonoBehaviour
     [SerializeField]
     GameObject uiTileObject;
     GameObject uiTileBlock;
+    [SerializeField]
+    string path;
+
     private void Awake()
     {
 
@@ -46,6 +49,17 @@ public class RoomEditor : MonoBehaviour
             GameObject newTile = Instantiate(uiTileObject, uiTileBlock.transform);
             newTile.transform.position = new Vector3(100 * i, 50);
             newTile.GetComponent<UiTile>().represents = tiles[i];
+        }
+        if (File.Exists(path))
+        {
+            try
+            {
+                currentRoom = JsonUtility.FromJson<Room>(path);
+            }
+            catch(System.Exception e)
+            {
+                Debug.LogWarning(e.ToString());
+            }
         }
     }
 

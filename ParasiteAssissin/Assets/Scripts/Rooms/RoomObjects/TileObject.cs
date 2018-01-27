@@ -42,11 +42,10 @@ public class TileObject : MonoBehaviour
         sprRenderer.sortingOrder = -10;
         tierVisualizer = new GameObject();
         tierVisualizer.transform.parent = transform;
-        tierVisualizer.transform.localPosition = new Vector3(-0.5f,0.5f);
+        tierVisualizer.transform.localPosition = new Vector3(-0.5f, 0.5f);
         vizualizerMesh = tierVisualizer.AddComponent<TextMesh>();
         vizualizerMesh.text = tileTier.ToString();
         vizualizerMesh.color = Color.green;
-
 
         this.y = y;
         this.x = x;
@@ -54,6 +53,7 @@ public class TileObject : MonoBehaviour
         this.visited = false;
         this.walkable = true;
 
+        RoomManager.instance.setTile((int)transform.position.x, (int)transform.position.y, this);
     }
     public void setTile(Tile t)
     {
@@ -74,6 +74,6 @@ public class TileObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         vizualizerMesh.text = tileTier.ToString();
+        vizualizerMesh.text = tileTier.ToString();
     }
 }

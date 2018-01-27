@@ -282,6 +282,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Map.cs" />
+    <Compile Include="Assets\Scripts\Rooms\Managers\CreateRoomFromJson.cs" />
     <Compile Include="Assets\Scripts\Rooms\Managers\EditorScripts\UiTile.cs" />
     <Compile Include="Assets\Scripts\Rooms\Managers\RoomEditor.cs" />
     <Compile Include="Assets\Scripts\Rooms\Managers\RoomManager.cs" />

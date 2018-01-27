@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
-    Vector2Int worldSize = new Vector2Int(50, 50);
+    Vector2Int worldSize = new Vector2Int(16, 16);
     TileObject[][] FullWorld;
     [SerializeField]
     List<Tile> tiles;
@@ -18,6 +19,9 @@ public class RoomManager : MonoBehaviour
 
     [SerializeField]
     Room lastroom;
+
+    [SerializeField]
+    string path;
 
     public static RoomManager instance;
     private void Awake()
@@ -36,34 +40,37 @@ public class RoomManager : MonoBehaviour
         {
             FullWorld[y] = new TileObject[worldSize.x];
         }
-
-        StartCoroutine(CreateWorld());
-    }
-
-    IEnumerator CreateWorld()
-    {
-        Room ogRoom = Instantiate(rooms[0]);
+        // StartCoroutine(CreateWorld());
         SpawnRoom(0, 0, rooms[0]);
-        Vector2Int roomPos = Vector2Int.zero;
-        for (int i = 0; i < ogRoom.doors.Count; i++)
-        {
-            Room r = Instantiate(randomRoom());
-            if (ogRoom.doors[i].y == ogRoom.size.y - 1)
-            {
-                print("Under");
-                bool fittingAbove = checkFitting(ogRoom.doors[i].x, ogRoom.doors[i].y + 1 + r.size.y, r);
-                print("Fitting Under " + fittingAbove);
-                if (fittingAbove)
-                {
-                    SpawnRoom(ogRoom.doors[i].x, ogRoom.doors[i].y + 1, r);
-                    lastroom = r;
-                }
-            }
-            ogRoom.doors.Remove(ogRoom.doors[i]);
-            i--;
-        }
-        yield return null;
     }
+
+    public void setTile(int x, int y, TileObject t)
+    {
+        FullWorld[y][x] = t;
+    }
+
+    //IEnumerator CreateWorld()
+    //{
+    //    Room ogRoom = null;
+    //    SpawnRoom(0, 0, rooms[0]);
+    //    Vector2Int roomPos = Vector2Int.zero;
+    //    for (int i = 0; i < ogRoom.doors.Count; i++)
+    //    {
+    //        if (ogRoom.doors[i].y == ogRoom.size.y - 1)
+    //        {
+    //            print("Under");
+    //            bool fittingAbove = checkFitting(ogRoom.doors[i].x, ogRoom.doors[i].y + 1 + r.size.y, r);
+    //            print("Fitting Under " + fittingAbove);
+    //            if (fittingAbove)
+    //            {
+    //                SpawnRoom(ogRoom.doors[i].x, ogRoom.doors[i].y + 1, r);
+    //            }
+    //        }
+    //        ogRoom.doors.Remove(ogRoom.doors[i]);
+    //        i--;
+    //    }
+    //    yield return null;
+    //}
 
     Room randomRoom()
     {
