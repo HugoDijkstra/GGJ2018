@@ -3,38 +3,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AiSystem : MonoBehaviour {
+public class AiSystem : MonoBehaviour
+{
 
     private TileObject[][] _grid;
 
     private int width, height;
 
-    void Start() {
+    void Start()
+    {
         width = RoomManager.instance.worldSize.x;
         height = RoomManager.instance.worldSize.y;
 
         _grid = RoomManager.instance.FullWorld;
     }
 
-    public Queue<TileObject> CalulatePathTo(Vector2 s, Vector2 e) {
+    public Queue<TileObject> CalulatePathTo(Vector2 s, Vector2 e)
+    {
         return this.ArraylistToQueue(this.CalculatePath(s, e));
     }
 
-    public Queue<TileObject> CalulatePathToByTier(Vector2 s, Vector2 e, int tier) {
-        if(tier <= _grid[(int)e.y][(int)e.x].tileTier) { 
+    public Queue<TileObject> CalulatePathToByTier(Vector2 s, Vector2 e, int tier)
+    {
+        if (tier <= _grid[(int)e.y][(int)e.x].tileTier)
+        {
             return this.ArraylistToQueue(this.CalculatePath(s, e));
-        }else{
+        }
+        else
+        {
             return new Queue<TileObject>();
         }
     }
 
-    public Queue<TileObject> CalculateRandomPath(Vector2 s) { // <-- calculate random path
+    public Queue<TileObject> CalculateRandomPath(Vector2 s)
+    { // <-- calculate random path
         this.reset();
 
         ArrayList walkable = new ArrayList();
-        for (int y = 0; y < height; y++){
-            for (int x = 0; x < width; x++){
-                if (_grid[y][x].walkable) {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (_grid[y][x].walkable)
+                {
                     walkable.Add(_grid[y][x]);
                 }
             }
@@ -45,7 +56,8 @@ public class AiSystem : MonoBehaviour {
         return this.ArraylistToQueue(this.CalculatePath(s, new Vector2(t.x, t.y)));
     }
 
-    public Queue<TileObject> CalculateRandomPathByTier(Vector2 s, int tier) { // <-- calculate random path
+    public Queue<TileObject> CalculateRandomPathByTier(Vector2 s, int tier)
+    { // <-- calculate random path
         this.reset();
 
         ArrayList walkable = GetTilesByTier(tier);
@@ -57,12 +69,16 @@ public class AiSystem : MonoBehaviour {
         return this.ArraylistToQueue(this.CalculatePath(s, new Vector2(t.x, t.y)));
     }
 
-    private ArrayList GetTilesByTier(int tier) {
+    private ArrayList GetTilesByTier(int tier)
+    {
         ArrayList list = new ArrayList();
 
-        for (int y = 0; y < height; y++){
-            for (int x = 0; x < width; x++){
-                if (_grid[y][x].walkable && _grid[y][x].tileTier <= tier) {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (_grid[y][x].walkable && _grid[y][x].tileTier <= tier)
+                {
                     list.Add(_grid[y][x]);
                 }
             }
@@ -70,16 +86,36 @@ public class AiSystem : MonoBehaviour {
 
         return list;
     }
+    private ArrayList GetTilesByTierHigher(int tier)
+    {
+        ArrayList list = new ArrayList();
 
-    private ArrayList getNeighbour(TileObject tile) { // <<-- get the neighbours of the tile
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (_grid[y][x].walkable && _grid[y][x].tileTier > tier)
+                {
+                    list.Add(_grid[y][x]);
+                }
+            }
+        }
+
+        return list;
+    }
+    private ArrayList getNeighbour(TileObject tile)
+    { // <<-- get the neighbours of the tile
         ArrayList neighbour = new ArrayList();
 
-        for (int y = -1; y < 2; y++){
-            for (int x = -1; x < 2; x++){
+        for (int y = -1; y < 2; y++)
+        {
+            for (int x = -1; x < 2; x++)
+            {
                 int _y = tile.y + y;
                 int _x = tile.x + x;
 
-                if (_y < 0 || _y > height - 1 || _x < 0 || _x > width-1 || x == 0 && y == 0) {
+                if (_y < 0 || _y > height - 1 || _x < 0 || _x > width - 1 || x == 0 && y == 0)
+                {
                     continue;
                 }
 
@@ -90,7 +126,8 @@ public class AiSystem : MonoBehaviour {
         return neighbour;
     }
 
-    private int GetDistance(TileObject tileA, TileObject tileB){ // <-- get the distance
+    private int GetDistance(TileObject tileA, TileObject tileB)
+    { // <-- get the distance
         int x = tileA.x - tileB.x;
         int y = tileA.y - tileB.y;
 
@@ -103,9 +140,12 @@ public class AiSystem : MonoBehaviour {
         return 14 * y + 10 * (x - y);
     }
 
-    private void reset() { // <-- reset grid
-        for (int y = 0; y < height; y++){
-            for (int x = 0; x < width; x++){
+    private void reset()
+    { // <-- reset grid
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
                 _grid[y][x].visited = false;
                 _grid[y][x].parent = null;
                 _grid[y][x].gCost = 0;
@@ -115,15 +155,18 @@ public class AiSystem : MonoBehaviour {
         }
     }
 
-    public Queue<TileObject> ArraylistToQueue(ArrayList list) {
+    public Queue<TileObject> ArraylistToQueue(ArrayList list)
+    {
         Queue<TileObject> queue = new Queue<TileObject>();
-        for (int i = 0; i < list.Count; i++){
+        for (int i = 0; i < list.Count; i++)
+        {
             queue.Enqueue(list[i] as TileObject);
         }
         return queue;
     }
 
-    public ArrayList CalculatePath(Vector2 s, Vector2 e) { // <-- A*
+    public ArrayList CalculatePath(Vector2 s, Vector2 e)
+    { // <-- A*
         TileObject start = _grid[(int)s.y][(int)s.x];
         TileObject end = _grid[(int)e.y][(int)e.x];
 
@@ -131,12 +174,15 @@ public class AiSystem : MonoBehaviour {
         ArrayList closed = new ArrayList();
 
         open.Add(start);
-        while (open.Count > 0){
+        while (open.Count > 0)
+        {
             // get the best tile you can chose
             TileObject currentTile = null;
             float fCost = Mathf.Infinity;
-            foreach (TileObject t in open){
-                if (t.fCost <= fCost){
+            foreach (TileObject t in open)
+            {
+                if (t.fCost <= fCost)
+                {
                     fCost = t.fCost;
                     currentTile = t;
                 }
@@ -149,19 +195,23 @@ public class AiSystem : MonoBehaviour {
             closed.Add(currentTile);
 
             // check if you are at the end
-            if (currentTile.x == end.x && currentTile.y == end.y){
+            if (currentTile.x == end.x && currentTile.y == end.y)
+            {
                 break;
             }
 
             // search new tiles
-            foreach (TileObject neighbour in getNeighbour(currentTile)){
+            foreach (TileObject neighbour in getNeighbour(currentTile))
+            {
 
-                if (neighbour.visited || !neighbour.walkable) {
+                if (neighbour.visited || !neighbour.walkable)
+                {
                     continue;
                 }
 
                 int costToNeighbour = currentTile.gCost + GetDistance(currentTile, neighbour);
-                if (currentTile.gCost < costToNeighbour || !open.Contains(neighbour)){
+                if (currentTile.gCost < costToNeighbour || !open.Contains(neighbour))
+                {
                     neighbour.gCost = costToNeighbour;
                     neighbour.hCost = GetDistance(neighbour, end);
                     neighbour.fCost = costToNeighbour + GetDistance(neighbour, end);
@@ -180,8 +230,9 @@ public class AiSystem : MonoBehaviour {
         // create path
         ArrayList path = new ArrayList();
         TileObject currentNode = end;
-        
-        while (currentNode != start){
+
+        while (currentNode != start)
+        {
             path.Add(currentNode);
             currentNode = currentNode.parent;
         }
