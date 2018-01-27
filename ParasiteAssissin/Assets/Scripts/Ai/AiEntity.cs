@@ -6,7 +6,7 @@ using UnityEngine;
 public class AiEntity : MonoBehaviour {
 
     [SerializeField]
-    private Entity _entityInfo;
+    public Entity _entityInfo;
 
     private Queue<TileObject> _path;
     private TileObject _currentTile;
@@ -27,7 +27,6 @@ public class AiEntity : MonoBehaviour {
         _path = new Queue<TileObject>();
 
         AiManager.AddAiEntity(this);
-
         this.GetComponent<SpriteRenderer>().color = _entityInfo.color;
 	}
 	
@@ -46,8 +45,6 @@ public class AiEntity : MonoBehaviour {
                 OnErrorInPath(this);
             return;
         }
-
-        Debug.Log(_currentTile);
 
         if (_currentTile.heading == null) {
             _currentTile.heading = this;

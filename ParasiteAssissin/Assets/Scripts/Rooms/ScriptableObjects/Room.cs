@@ -19,7 +19,6 @@ public class Room
     {
         if (tiles == null || tiles.Length != size.x * size.y)
         {
-            Debug.Log("Creating new room");
             tiles = new Tile[size.x * size.y];
             room = new Tile[size.y][];
             int index = 0;

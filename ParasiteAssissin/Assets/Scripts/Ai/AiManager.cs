@@ -53,8 +53,12 @@ public class AiManager : MonoBehaviour {
         this.getPath(e);
     }
 
+    static public void SetNewRandomPath(AiEntity e) {
+        e.SetPath(instance._aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
+    }
+
     private void OnErrorInPath(AiEntity e){
-        e.SetPath(_aiSystem.CalculateRandomPathByTier(new Vector2(1,1), e.getEntityInfo().Tier));
+        e.SetPath(_aiSystem.CalculateRandomPathByTier(new Vector2(1, 1), e.getEntityInfo().Tier));
     }
 
     private void OnAtTile(AiEntity e, TileObject t) {
@@ -82,7 +86,7 @@ public class AiManager : MonoBehaviour {
             return;
         }
 
-        // for normal calulate path to random tile
+        // for normal calulate path to random tiler
         e.SetPath(_aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
     }
 

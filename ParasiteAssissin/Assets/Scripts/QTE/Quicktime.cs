@@ -28,15 +28,13 @@ public class Quicktime : MonoBehaviour {
         }
         timer = 0.0f;
         tier = 0;
-        startSequence = true;
-        quickTimeButtonCodes = new KeyCode[4] { KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.RightArrow, KeyCode.LeftArrow };
+        startSequence = false;
+        quickTimeButtonCodes = new KeyCode[4] { KeyCode.W, KeyCode.S, KeyCode.D, KeyCode.A };
 
     }
 
     // Update is called once per frame
     void Update () {
-        timer += Time.deltaTime;
-
         if (startSequence) {
             if (Input.GetKeyDown (quickTimeButtonCodes[0]) || Input.GetKeyDown (quickTimeButtonCodes[1])|| Input.GetKeyDown (quickTimeButtonCodes[2])|| Input.GetKeyDown (quickTimeButtonCodes[3])) {
                 if (Input.GetKeyDown (quickTimeButtonCodes[currentKey])) {
@@ -63,7 +61,6 @@ public class Quicktime : MonoBehaviour {
 
     static public void EnableQuicktime (int t, int ic) {
         instance.currentKey = Random.Range (0, 4);
-
         instance.gameObject.transform.GetChild (0).GetComponent<Image> ().sprite = instance.quicktimeButtons[instance.currentKey];
         instance.gameObject.transform.GetChild (0).transform.position = new Vector3 (Random.Range (instance.gameObject.transform.GetChild (0).GetComponent<RectTransform> ().rect.width, Screen.width - instance.gameObject.transform.GetChild (0).GetComponent<RectTransform> ().rect.width), Random.Range (instance.gameObject.transform.GetChild (0).GetComponent<RectTransform> ().rect.height, Screen.height - instance.gameObject.transform.GetChild (0).GetComponent<RectTransform> ().rect.height), 0);
         instance.startSequence = true;

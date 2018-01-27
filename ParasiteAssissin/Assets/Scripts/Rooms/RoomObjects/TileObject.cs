@@ -42,7 +42,7 @@ public class TileObject : MonoBehaviour
     void Start()
     {
         if (represents.name != "Wall")
-            gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+            Destroy(GetComponent<Collider2D>());
         sprRenderer = GetComponent<SpriteRenderer>();
         sprRenderer.sprite = represents.texture;
         sprRenderer.sortingLayerName = "Default";
@@ -58,7 +58,6 @@ public class TileObject : MonoBehaviour
         this.visited = false;
         this.heading = null;
 
-        print(transform.position);
         RoomManager.instance.setTile((int)transform.position.x, (int)transform.position.y, this);
 
         positionInWorld = new Vector2Int((int)transform.position.x, (int)transform.position.y);
@@ -84,6 +83,6 @@ public class TileObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // vizualizerMesh.text = tileTier.ToString();
+        // vizualizerMesh.text = tileTier.ToString();
     }
 }
