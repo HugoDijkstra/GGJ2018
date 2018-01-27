@@ -2,18 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu()]
 public class Tile : ScriptableObject
 {
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    public bool walkable;
+    public Sprite texture;
+    public delegate void OnCollision();
+    public OnCollision onCollision;
 }
