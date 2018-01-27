@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
-    Vector2Int worldSize = new Vector2Int(16, 16);
-    TileObject[][] FullWorld;
+    public Vector2Int worldSize = new Vector2Int(16, 16);
+    public TileObject[][] FullWorld;
     [SerializeField]
     List<Tile> tiles;
     [SerializeField]

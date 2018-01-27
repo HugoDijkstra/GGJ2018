@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e43e71afaac9d643bd0b210fcd5270b, type: 3}
   m_Name: Wall
   m_EditorClassIdentifier: 
-  walkable: 1
+  walkable: 0
   texture: {fileID: 21300000, guid: c4fc7365add9f7447a54b5d326070739, type: 3}

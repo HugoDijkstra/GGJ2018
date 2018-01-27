@@ -15,7 +15,11 @@ public class TileObject : MonoBehaviour
 
     public GameObject me;
 
-    public bool walkable;
+    public bool walkable
+    {
+        get { return represents.walkable; }
+        set { represents.walkable = value; }
+    }
 
     public int x;
     public int y;
@@ -24,8 +28,9 @@ public class TileObject : MonoBehaviour
     public int gCost;
     public int hCost;
     public int fCost;
-    public Tile parent;
+    public TileObject parent;
     public bool visited;
+    public AiEntity heading;
 
 
     public Vector2 GetPosition()
@@ -47,13 +52,16 @@ public class TileObject : MonoBehaviour
         vizualizerMesh.text = tileTier.ToString();
         vizualizerMesh.color = Color.green;
 
-        this.y = y;
-        this.x = x;
 
         this.visited = false;
-        this.walkable = true;
+        this.heading = null;
 
+        print(transform.position);
         RoomManager.instance.setTile((int)transform.position.x, (int)transform.position.y, this);
+
+        positionInWorld = new Vector2Int((int)transform.position.x, (int)transform.position.y);
+        this.y = positionInWorld.y;
+        this.x = positionInWorld.x;
     }
     public void setTile(Tile t)
     {
