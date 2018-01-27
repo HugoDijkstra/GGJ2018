@@ -42,7 +42,8 @@ public class AiEntity : MonoBehaviour {
         }
 
         if (_path.Count <= 0 || _currentTile == null){
-            OnErrorInPath(this);
+            if (OnErrorInPath != null)
+                OnErrorInPath(this);
             return;
         }
 
@@ -51,7 +52,8 @@ public class AiEntity : MonoBehaviour {
         if (_currentTile.heading == null) {
             _currentTile.heading = this;
         } else if (_currentTile.heading != this) {
-            OnWaitForNextTile(this, _currentTile);
+            if (OnWaitForNextTile != null)
+                OnWaitForNextTile(this, _currentTile);
             return;
         }
 
@@ -64,10 +66,12 @@ public class AiEntity : MonoBehaviour {
             _path.Dequeue();
 
             if (_path.Count <= 0){
-                OnEndOfPath(this);
+                if(OnEndOfPath != null)
+                    OnEndOfPath(this);
             }else {
                 _currentTile = _path.Peek();
-                OnAtTile(this, _currentTile);
+                if(OnAtTile != null)
+                    OnAtTile(this, _currentTile);
             }
         }
     }
@@ -83,8 +87,9 @@ public class AiEntity : MonoBehaviour {
     }
 
     public void SetPath(Queue<TileObject> q) {
-        q.Dequeue();
-        _currentTile = q.Peek();
+        if (q.Count > 0) {
+            _currentTile = q.Peek();
+        }
         _path = q;
     }
 

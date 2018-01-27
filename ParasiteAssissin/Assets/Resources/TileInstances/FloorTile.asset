@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e43e71afaac9d643bd0b210fcd5270b, type: 3}
   m_Name: FloorTile
   m_EditorClassIdentifier: 
-  walkable: 0
+  walkable: 1
   texture: {fileID: 21300000, guid: 641a31106a82ca443bf0be93096438a5, type: 3}
