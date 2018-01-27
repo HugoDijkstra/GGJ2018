@@ -15,14 +15,14 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         mouseOver = false;
-        PlayerLevelManager.instance.onLevelUp += () => disableAi();
-        PlayerLevelManager.instance.doneLeveling += () => enableAi();
+        //PlayerLevelManager.instance.onLevelUp += () => disableAi();
+        //PlayerLevelManager.instance.doneLeveling += () => enableAi();
     }
 
     private void OnDestroy()
     {
-        PlayerLevelManager.instance.onLevelUp -= () => disableAi();
-        PlayerLevelManager.instance.doneLeveling -= () => enableAi();
+        //PlayerLevelManager.instance.onLevelUp -= () => disableAi();
+        //PlayerLevelManager.instance.doneLeveling -= () => enableAi();
     }
 
     private void enableAi()

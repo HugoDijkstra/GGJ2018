@@ -149,6 +149,19 @@ public class Parasite : MonoBehaviour
             PlayerLevelManager.instance.addExp(25 * stuckOn.ai._entityInfo.Tier * stuckOn.ai._entityInfo.Tier);
         }
 
+        foreach(TileObject tObj in AiManager.instance._aiSystem.GetTilesByTierHigher(e.ai._entityInfo.Tier))
+        {
+            BoxCollider2D bc2D = tObj.GetComponent<BoxCollider2D>();
+            if (bc2D != null)
+                bc2D.enabled = true;
+        }
+        foreach (TileObject tObj in AiManager.instance._aiSystem.GetTilesByTier(e.ai._entityInfo.Tier))
+        {
+            BoxCollider2D bc2D = tObj.GetComponent<BoxCollider2D>();
+            if (bc2D != null)
+                bc2D.enabled = false;
+        }
+
         curRidgidBody = e.GetComponent<Rigidbody2D>();
         curRidgidBody.bodyType = RigidbodyType2D.Dynamic;
         stuckOn.GetComponent<AiEntity>().enabled = false;

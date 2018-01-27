@@ -7,7 +7,7 @@ public class AiManager : MonoBehaviour {
     
     public ArrayList _aiEntitys;
     
-    private AiSystem _aiSystem;
+    public AiSystem _aiSystem;
 
 	void Awake () {
         // create instance

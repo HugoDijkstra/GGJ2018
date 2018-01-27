@@ -69,7 +69,7 @@ public class AiSystem : MonoBehaviour
         return this.ArraylistToQueue(this.CalculatePath(s, new Vector2(t.x, t.y)));
     }
 
-    private ArrayList GetTilesByTier(int tier)
+    public ArrayList GetTilesByTier(int tier)
     {
         ArrayList list = new ArrayList();
 
@@ -86,7 +86,7 @@ public class AiSystem : MonoBehaviour
 
         return list;
     }
-    private ArrayList GetTilesByTierHigher(int tier)
+    public ArrayList GetTilesByTierHigher(int tier)
     {
         ArrayList list = new ArrayList();
 
