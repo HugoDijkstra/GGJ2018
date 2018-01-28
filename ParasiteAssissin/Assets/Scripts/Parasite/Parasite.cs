@@ -32,12 +32,25 @@ public class Parasite : MonoBehaviour
     bool qteFailed = false;
 
     GameObject RangeCircle;
+
+    GameObject arrow;
+    SpriteRenderer arrowRenderer;
+
     // Use this for initialization
+
+    [SerializeField]
+    Enemy target;
+
     void Start()
     {
         RangeCircle = transform.GetChild(0).gameObject;
         RangeCircle.transform.localScale = Vector3.one * range * 2;
         sprRenderer = GetComponent<SpriteRenderer>();
+
+        arrow = transform.GetChild(1).gameObject;
+        arrow.SetActive(false);
+        target = FindObjectOfType<Enemy>();
+        arrowRenderer = arrow.transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -54,7 +67,14 @@ public class Parasite : MonoBehaviour
         /*if (attacking) {
             Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x + Random.value * Time.deltaTime * shakePower, Camera.main.transform.position.y + Random.value * Time.deltaTime * shakePower, Camera.main.transform.position.z);
         }*/
-
+        arrow.SetActive(stuckOn != null);
+        arrowRenderer.color = new Color(1, 1, 1, 1f / Vector2.Distance(transform.position, target.transform.position));
+        print(arrowRenderer.color);
+        if (stuckOn != null)
+        {
+            float angle = Mathf.Atan2(target.transform.position.y - transform.position.y, target.transform.position.x - transform.position.x) * Mathf.Rad2Deg;
+            arrow.transform.localEulerAngles = new Vector3(0, 0, angle - 90f);
+        }
         if (Quicktime.isDeath())
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -149,7 +169,7 @@ public class Parasite : MonoBehaviour
             PlayerLevelManager.instance.addExp(25 * stuckOn.ai._entityInfo.Tier * stuckOn.ai._entityInfo.Tier);
         }
 
-        foreach(TileObject tObj in AiManager.instance._aiSystem.GetTilesByTierHigher(e.ai._entityInfo.Tier))
+        foreach (TileObject tObj in AiManager.instance._aiSystem.GetTilesByTierHigher(e.ai._entityInfo.Tier))
         {
             BoxCollider2D bc2D = tObj.GetComponent<BoxCollider2D>();
             if (bc2D != null)
