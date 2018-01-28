@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InfectManager : MonoBehaviour {
+public class InfectManager : MonoBehaviour
+{
     static public InfectManager instance;
     //int die bijhoud hoeveel entity's zijn geinfect
     private int totalInfected;
@@ -13,12 +14,16 @@ public class InfectManager : MonoBehaviour {
     public float minDisplayDist;
 
     // Use this for initialization
-    void Awake () {
+    void Awake()
+    {
         // Make a static  InfectManager, make sure there's no duplicate
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = this;
-        } else {
-            Destroy (this);
+        }
+        else
+        {
+            Destroy(this);
             return;
         }
         // Inititalize int
@@ -27,13 +32,15 @@ public class InfectManager : MonoBehaviour {
         instance.entityViruslist = new ArrayList();
     }
 
-    private void Start () {
+    private void Start()
+    {
         // Get all the entities
-        entityViruslist = AiManager.instance._aiEntitys;
+        entityViruslist = new ArrayList(AiManager.instance._aiEntitys);
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         //for (int i = 0; i < entityViruslist.Count; i++) {
         //    //distance between player and entity
         //    float dis = Vector2.Distance (((AiEntity)entityViruslist[i]).gameObject.transform.position, player.transform.position);
@@ -44,20 +51,25 @@ public class InfectManager : MonoBehaviour {
         //}
     }
 
-    public static void addEntity (AIVirus e) {
+    public static void addEntity(AIVirus e)
+    {
         // Add a entity to the arraylist
-        instance.entityViruslist.Add (e);
+        instance.entityViruslist.Add(e);
     }
 
-    public static void updateInfected () {
+    public static void updateInfected()
+    {
 
     }
-    public int getInfectedAmount () {
+    public int getInfectedAmount()
+    {
         //Initialize int
         int totalInfected = 0;
         // Get all the entities and check if it is infected
-        foreach (AIVirus e in instance.entityViruslist) {
-            if (e.getInfectPercent () > 0) {
+        foreach (AIVirus e in instance.entityViruslist)
+        {
+            if (e.getInfectPercent() > 0)
+            {
                 totalInfected += 1;
             }
         }
@@ -65,5 +77,18 @@ public class InfectManager : MonoBehaviour {
         return totalInfected;
     }
 
+    public int GetInfectedEntities(Vector2 pos, float range, int percent)
+    {
+        int amount = 0;
+        foreach (AIVirus v in entityViruslist)
+        {
+            if (v.infectPercent <= percent)
+                if (Vector2.Distance(v.transform.position, player.transform.position) <= range)
+                {
+                    amount++;
+                }
+        }
+        return amount;
+    }
 }
 

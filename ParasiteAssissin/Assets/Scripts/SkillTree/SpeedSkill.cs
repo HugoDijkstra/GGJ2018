@@ -8,7 +8,7 @@ public class SpeedSkill : Skill {
     public float speed;
 
     public override void Apply (Parasite p) {
-        //p.jumpSpeed = speed;
+        p.controlSpeed = speed;
     }
 
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class AIVirus : MonoBehaviour {
     //Percent how much the entity is infected
-    private float infectPercent;
+    public float infectPercent { get; private set; }
     //The bar to show how much the entity is infected
     public GameObject virusMeter;
 

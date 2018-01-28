@@ -17,7 +17,7 @@ public class AISpawner : MonoBehaviour
     {
         hasgonethrough = false;
         usedTiles = new ArrayList();
-        enemySpawns = new int[3] { 3, 2, 1 };
+        enemySpawns = new int[] { 3, 2, 1 };
     }
 
     // Update is called once per frame
@@ -26,12 +26,12 @@ public class AISpawner : MonoBehaviour
         if (!hasgonethrough)
         {
             hasgonethrough = true;
-            for (int k = 0; k < 3; k++)
+            for (int k = 0; k < enemySpawns.Length; k++)
             {
-                int rand = Random.Range(1, enemySpawns[k]);
+                int rand = Random.Range(0, enemySpawns[k]);
                 for (int i = 0; i < rand; i++)
                 {
-                    ArrayList spawnableTiles = AiManager.instance._aiSystem.GetTilesByTier(k+1);
+                    ArrayList spawnableTiles = AiManager.instance._aiSystem.GetTilesByTier(k + 1);
                     int randomTile = Random.Range(0, spawnableTiles.Count);
                     TileObject targetPosition = (TileObject)spawnableTiles[randomTile];
                     for (int j = 0; j < usedTiles.Count; j++)
@@ -47,7 +47,7 @@ public class AISpawner : MonoBehaviour
                     AiManager.AddAiEntity(newEntity.GetComponent<AiEntity>());
                     AiEntity ae = newEntity.GetComponent<AiEntity>();
                     ae.SetCurrentTile(targetPosition);
-                    ae.SetPath(AiManager.instance._aiSystem.CalculateRandomPathByTier(targetPosition.GetPosition(), k+1));
+                    ae.SetPath(AiManager.instance._aiSystem.CalculateRandomPathByTier(targetPosition.GetPosition(), k + 1));
                     usedTiles.Add(targetPosition.GetPosition());
                 }
             }

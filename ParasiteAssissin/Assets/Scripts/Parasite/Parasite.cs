@@ -20,6 +20,13 @@ public class Parasite : MonoBehaviour
     [SerializeField]
     private float shakePower;
 
+    public float controlSpeed;
+    public float resistance;
+    public int qteDecreaser;
+
+    bool enemyControl;
+
+
     SpriteRenderer sprRenderer;
 
     LineRenderer line;
@@ -43,6 +50,8 @@ public class Parasite : MonoBehaviour
 
     void Start()
     {
+        enemyControl = false;
+
         RangeCircle = transform.GetChild(0).gameObject;
         RangeCircle.transform.localScale = Vector3.one * range * 2;
         sprRenderer = GetComponent<SpriteRenderer>();
@@ -81,7 +90,7 @@ public class Parasite : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         if (attacking) return;
-        // Zoom the camera out if the parasite is not attacking
+        // Zoom the camera out if the parasite is not attacking 
         Camera.main.orthographicSize += ((Mathf.Lerp(maxZoom, minZoom, Camera.main.orthographicSize / minZoom)) - Camera.main.orthographicSize) * zoomOutSpeed * Time.deltaTime;
         // Movement target
         if (stuckOn != null)
@@ -134,9 +143,10 @@ public class Parasite : MonoBehaviour
             transform.parent = null;
         }
 
-        foreach (AiEntity aiE in AiManager.instance._aiEntitys)
+        for (int i = 0; i < AiManager.instance._aiEntitys.Count; i++)
         {
-            aiE.isWaiting = true;
+            print(AiManager.instance._aiEntitys[i].GetType());
+            ((AiEntity)AiManager.instance._aiEntitys[i]).isWaiting = true;
         }
 
         attacking = true;
@@ -209,7 +219,6 @@ public class Parasite : MonoBehaviour
             if (Quicktime.GetQuicktimeSucces(t))
             {
                 Quicktime.DisableQuicktime();
-                print("Done: " + t);
                 break;
             }
             yield return new WaitForEndOfFrame();
