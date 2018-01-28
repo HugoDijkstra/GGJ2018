@@ -2,28 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AISpawner : MonoBehaviour {
+public class AISpawner : MonoBehaviour
+{
     [SerializeField]
     private GameObject aiEntity;
     ArrayList usedTiles;
     [SerializeField]
     GameObject[] enemyTiers;
+    int[] enemySpawns;
     bool hasgonethrough;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         hasgonethrough = false;
         usedTiles = new ArrayList();
+        enemySpawns = new int[3] { 3, 2, 1 };
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         if (!hasgonethrough)
         {
             hasgonethrough = true;
             for (int k = 0; k < 3; k++)
             {
-                int rand = Random.Range(2*(3-k), 6*(3-k));
+                int rand = Random.Range(1, enemySpawns[k]);
                 for (int i = 0; i < rand; i++)
                 {
                     ArrayList spawnableTiles = AiManager.instance._aiSystem.GetTilesByTier(k+1);

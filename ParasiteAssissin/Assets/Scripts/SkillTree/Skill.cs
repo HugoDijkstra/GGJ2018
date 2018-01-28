@@ -4,9 +4,17 @@ using UnityEngine;
 
 public abstract class Skill : ScriptableObject {
 
-    [SerializeField]
-    protected int level = 1;
+    public bool upgraded = false;
 
-    public abstract void Apply (Parasite p);
-    public void Upgrade () { level++; }
+    public abstract void Apply(Parasite p);
+
+    private void Awake()
+    {
+        upgraded = false;
+    }
+
+    public void Upgrade()
+    {
+        upgraded = true;
+    }
 }

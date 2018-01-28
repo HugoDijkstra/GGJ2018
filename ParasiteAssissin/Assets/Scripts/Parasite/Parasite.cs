@@ -39,7 +39,7 @@ public class Parasite : MonoBehaviour
     // Use this for initialization
 
     [SerializeField]
-    Enemy target;
+    private Enemy target;
 
     void Start()
     {
@@ -69,7 +69,7 @@ public class Parasite : MonoBehaviour
         arrow.SetActive(stuckOn != null);
         if (target == null)
             target = FindObjectOfType<Enemy>();
-        arrowRenderer.color = new Color(1, 1, 1, 1f / Vector2.Distance(transform.position, target.transform.position));
+        //arrowRenderer.color = new Color(1, 1, 1, 1f / Vector2.Distance(transform.position, target.transform.position));
         print(arrowRenderer.color);
         if (stuckOn != null)
         {

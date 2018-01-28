@@ -44,7 +44,7 @@ public class TileObject : MonoBehaviour
         if (represents.name != "Wall")
             GetComponent<Collider2D>().enabled = false;
         sprRenderer = GetComponent<SpriteRenderer>();
-       // sprRenderer.sprite = represents.texture;
+        sprRenderer.sprite = represents.texture;
         sprRenderer.sortingLayerName = "Default";
         sprRenderer.sortingOrder = -10;
         /*tierVisualizer = new GameObject();
