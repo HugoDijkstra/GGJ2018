@@ -33,7 +33,7 @@ public class Parasite : MonoBehaviour
 
     bool attacking = false;
 
-    Enemy stuckOn;
+    public Enemy stuckOn;
 
     Rigidbody2D curRidgidBody;
     bool qteFailed = false;
@@ -77,7 +77,6 @@ public class Parasite : MonoBehaviour
         }*/
         arrow.SetActive(stuckOn != null);
         //arrowRenderer.color = new Color(1, 1, 1, 1f / Vector2.Distance(transform.position, target.transform.position));
-        print(arrowRenderer.color);
         if (stuckOn != null)
         {
             float angle = Mathf.Atan2(target.transform.position.y - transform.position.y, target.transform.position.x - transform.position.x) * Mathf.Rad2Deg;
@@ -93,7 +92,7 @@ public class Parasite : MonoBehaviour
         // Movement target
         if (stuckOn != null)
         {
-            curRidgidBody.velocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            curRidgidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * controlSpeed * Time.deltaTime, Input.GetAxis("Vertical") * controlSpeed * Time.deltaTime);
         }
         // Get mousePosition in world space
         Vector3 mousePosition = Input.mousePosition;
@@ -119,12 +118,12 @@ public class Parasite : MonoBehaviour
                 if (e != null)
                 {
 
-                    if (e.ai.getEntityInfo().Tier == 1 || e.ai.getEntityInfo().Tier * 3 <= PlayerLevelManager.instance.playerLevel)
+                    if (e.ai.getEntityInfo().Tier <= PlayerLevelManager.instance.playerLevel + 1)
                         // If the mouse is over that enemy set it as our current target
                         if (e.mouseOver)
                         {
                             currentTarget = rayhit.collider.gameObject;
-                            StartCoroutine(attack(transform.position, e, e.ai._entityInfo.Tier + 2));
+                            StartCoroutine(attack(transform.position, e, e.ai.getEntityInfo().Tier + 2- qteDecreaser));
                         }
                 }
             }
@@ -171,7 +170,7 @@ public class Parasite : MonoBehaviour
             Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + Random.value * Time.deltaTime * shakePower, Camera.main.transform.position.y + Random.value * Time.deltaTime * shakePower, Camera.main.transform.position.z);
             if (qteFailed)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneManager.LoadScene(2);
             }
         }
         stuckOn = e;
@@ -179,16 +178,16 @@ public class Parasite : MonoBehaviour
         if (!stuckOn.visited)
         {
             stuckOn.visited = true;
-            PlayerLevelManager.instance.addExp(25 * stuckOn.ai._entityInfo.Tier * stuckOn.ai._entityInfo.Tier);
+            PlayerLevelManager.instance.addExp(25 * stuckOn.ai.getEntityInfo().Tier * stuckOn.ai.getEntityInfo().Tier);
         }
 
-        foreach (TileObject tObj in AiManager.instance._aiSystem.GetTilesByTierHigher(e.ai._entityInfo.Tier))
+        foreach (TileObject tObj in AiManager.instance._aiSystem.GetTilesByTierHigher(e.ai.getEntityInfo().Tier))
         {
             BoxCollider2D bc2D = tObj.GetComponent<BoxCollider2D>();
             if (bc2D != null)
                 bc2D.enabled = true;
         }
-        foreach (TileObject tObj in AiManager.instance._aiSystem.GetTilesByTier(e.ai._entityInfo.Tier))
+        foreach (TileObject tObj in AiManager.instance._aiSystem.GetTilesByTier(e.ai.getEntityInfo().Tier))
         {
             BoxCollider2D bc2D = tObj.GetComponent<BoxCollider2D>();
             if (bc2D != null)

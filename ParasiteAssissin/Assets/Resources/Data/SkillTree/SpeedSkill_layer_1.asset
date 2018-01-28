@@ -14,5 +14,5 @@ MonoBehaviour:
   skillName: Speed
   skill: {fileID: 11400000, guid: 4c752da88f9937548a24ec4fb4b0ab3a, type: 2}
   skillConfigs:
+  - {fileID: 11400000, guid: 2b450da8fe66da24283df76a732b09c2, type: 2}
   - {fileID: 11400000, guid: 4bb3e23c150ddd24fb64be33223a0c2b, type: 2}
-  - {fileID: 11400000, guid: dbca6cd088077704ab2f1c5e25db059b, type: 2}

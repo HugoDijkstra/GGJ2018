@@ -108,6 +108,7 @@ public class SkillManager : MonoBehaviour {
     {
         // Remvove the buttons before instating new ones
         instance.RemoveAllButtons();
+
         foreach (SkillConfig sc in instance.skillConfig.skillConfigs)
         {
             Button b = InstantiateButton(sc.skillName);

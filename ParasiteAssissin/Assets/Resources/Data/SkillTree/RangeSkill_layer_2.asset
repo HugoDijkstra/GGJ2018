@@ -13,4 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Range
   skill: {fileID: 11400000, guid: 1b50122eaf97a174fbd5fd6b173715ed, type: 2}
-  skillConfigs: []
+  skillConfigs:
+  - {fileID: 11400000, guid: ee72f847ca843b14292a8b849da01ea5, type: 2}
+  - {fileID: 11400000, guid: e8f6abad8e26c594591fbed97f76dd50, type: 2}

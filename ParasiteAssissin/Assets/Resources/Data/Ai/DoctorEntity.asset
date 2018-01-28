@@ -11,7 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ca57808c9f2fe4aa11f16f9c37a23c, type: 3}
   m_Name: DoctorEntity
   m_EditorClassIdentifier: 
-  tier: 1
-  isDoctor: 0
+  tier: 4
   speed: 3
+  isDoctor: 1
+  minVindValue: 0
+  searchRange: 0
+  hasToFind: 0
   color: {r: 1, g: 1, b: 1, a: 1}

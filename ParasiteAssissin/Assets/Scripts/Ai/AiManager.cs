@@ -10,6 +10,8 @@ public class AiManager : MonoBehaviour
 
     public AiSystem _aiSystem;
 
+    public GameObject doctor;
+
     void Awake()
     {
         // create instance
@@ -110,23 +112,11 @@ public class AiManager : MonoBehaviour
             return;
         }
 
-        // doctor
-        //// for docter calculate path to sick entity
-        //if (e.getEntityInfo().IsDoctor) {
-        //    if (e.getTarget() == null) {
-        //        e.setTarget(this.getSickEntityInRange(e));
-        //    }
-
-        //    e.SetPath(_aiSystem.CalulatePathTo(e.GetCurrentTile().GetPosition(), e.getTarget().GetCurrentTile().GetPosition()));
-        //    return;
-        //}
-
         // for normal calulate path to random tile
         e.SetPath(_aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
     }
 
-    private void OnStartInspection(AiEntity e)
-    {
+    private void OnStartInspection(AiEntity e){
         if (e.getEntityInfo().IsDoctor)
         {
             if (e.getTarget() == null)
@@ -143,8 +133,19 @@ public class AiManager : MonoBehaviour
         }
     }
 
-    private void OnDoneInspection(AiEntity e)
-    { // doctor
+    public void spawnNewDoctor() {
+        ArrayList spawnableTiles = AiManager.instance._aiSystem.GetTilesByTier(doctor.GetComponent<AiEntity>().getEntityInfo().Tier);
+        int randomTile = Random.Range(0, spawnableTiles.Count);
+        TileObject targetPosition = (TileObject)spawnableTiles[randomTile];
+
+        GameObject newEntity = Instantiate(doctor, targetPosition.GetPosition(), Quaternion.identity);
+        AiManager.AddAiEntity(newEntity.GetComponent<AiEntity>());
+        AiEntity ae = newEntity.GetComponent<AiEntity>();
+        ae.SetCurrentTile(targetPosition);
+        ae.SetPath(AiManager.instance._aiSystem.CalculateRandomPathByTier(targetPosition.GetPosition(), doctor.GetComponent<AiEntity>().getEntityInfo().Tier));
+    }
+
+    private void OnDoneInspection(AiEntity e){ // doctor
         e.SetPath(_aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
 
         if (e.getEntityInfo().IsDoctor)

@@ -26,7 +26,7 @@ public class AISpawner : MonoBehaviour
         if (!hasgonethrough)
         {
             hasgonethrough = true;
-            for (int k = 0; k < 3; k++)
+            for (int k = 0; k < enemySpawns.Length; k++)
             {
                 for (int i = 0; i < enemySpawns[k]; i++)
                 {

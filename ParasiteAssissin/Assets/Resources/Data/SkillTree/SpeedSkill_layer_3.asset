@@ -9,10 +9,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 964f70eee140aa14187e762fcebb5cb3, type: 3}
-  m_Name: SpeedSkill_layer_2
+  m_Name: SpeedSkill_layer_3
   m_EditorClassIdentifier: 
-  skillName: Speed
-  skill: {fileID: 11400000, guid: 4c752da88f9937548a24ec4fb4b0ab3a, type: 2}
-  skillConfigs:
-  - {fileID: 11400000, guid: 5ad360684ed865249a1793b048e00b62, type: 2}
-  - {fileID: 11400000, guid: ee72f847ca843b14292a8b849da01ea5, type: 2}
+  skillName: SpeedSkill
+  skill: {fileID: 11400000, guid: 1428a449b8468674daa327f059ff0953, type: 2}
+  skillConfigs: []

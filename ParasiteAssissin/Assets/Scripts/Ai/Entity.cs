@@ -9,10 +9,13 @@ public class Entity : ScriptableObject  {
     private int tier;
 
     [SerializeField]
-    private bool isDoctor;
+    private float speed;
 
     [SerializeField]
-    private float speed;
+    private bool isDoctor;
+    public int minVindValue;
+    public int searchRange;
+    public int hasToFind;
 
     public Color color;
 

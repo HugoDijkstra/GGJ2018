@@ -52,20 +52,9 @@ public class AiEntity : MonoBehaviour {
             return;
         }
 
-        if (_currentTile.heading == null) {
-            _currentTile.heading = this;
-        } else if (_currentTile.heading != this) {
-            if (OnWaitForNextTile != null)
-                OnWaitForNextTile(this, _currentTile);
-            return;
-        }
-
         this.transform.position = Vector2.MoveTowards(transform.position, _path.Peek().GetPosition(), _entityInfo.Speed * Time.deltaTime);
         
         if ((Vector2)this.transform.position == _path.Peek().GetPosition()) {
-            _currentTile.heading = null;
-            
-            
             _path.Dequeue();
 
             if (_path.Count <= 0){
@@ -73,6 +62,7 @@ public class AiEntity : MonoBehaviour {
                     OnEndOfPath(this);
             }else {
                 _currentTile = _path.Peek();
+                this.transform.localEulerAngles = new Vector3(0,0,(Mathf.Atan2(_currentTile.transform.position.y - transform.position.y, _currentTile.transform.position.x - transform.position.x) * Mathf.Rad2Deg) - 90f);
                 if(OnAtTile != null)
                     OnAtTile(this, _currentTile);
             }
@@ -121,17 +111,20 @@ public class AiEntity : MonoBehaviour {
         isInspecting = true;
         yield return new WaitForSeconds(5.0f);
         isInspecting = false;
-        this.target = null;
         if (OnDoneInspection != null) {
             OnDoneInspection(this);
         }
+        this.target = null;
         if (_entityInfo.IsDoctor) {
+            if (UnityEngine.Random.Range(0, 100) < 40) {
+                AiManager.instance.spawnNewDoctor();
+            }
             StartCoroutine(doctorSearch());
         }
     }
 
     private IEnumerator doctorSearch(){
-        yield return new WaitForSecondsRealtime(UnityEngine.Random.Range(20, 40));
+        yield return new WaitForSecondsRealtime(UnityEngine.Random.Range(10, 15));
         print("done");
         if (OnStartInspection != null){
             OnStartInspection(this);
