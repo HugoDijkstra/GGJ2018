@@ -4,6 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Entity", menuName = "AI/Entity")]
 public class Entity : ScriptableObject  {
+    [Range(1,4)]
     [SerializeField]
     private int tier;
 

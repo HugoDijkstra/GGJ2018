@@ -49,7 +49,6 @@ public class Parasite : MonoBehaviour
 
         arrow = transform.GetChild(1).gameObject;
         arrow.SetActive(false);
-        target = FindObjectOfType<Enemy>();
         arrowRenderer = arrow.transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
 
@@ -68,6 +67,8 @@ public class Parasite : MonoBehaviour
             Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x + Random.value * Time.deltaTime * shakePower, Camera.main.transform.position.y + Random.value * Time.deltaTime * shakePower, Camera.main.transform.position.z);
         }*/
         arrow.SetActive(stuckOn != null);
+        if (target == null)
+            target = FindObjectOfType<Enemy>();
         arrowRenderer.color = new Color(1, 1, 1, 1f / Vector2.Distance(transform.position, target.transform.position));
         print(arrowRenderer.color);
         if (stuckOn != null)
@@ -113,7 +114,7 @@ public class Parasite : MonoBehaviour
                     if (e.mouseOver)
                     {
                         currentTarget = rayhit.collider.gameObject;
-                        StartCoroutine(attack(transform.position, e, 3));
+                        StartCoroutine(attack(transform.position, e, e.ai._entityInfo.Tier + 2));
                     }
             }
         }
@@ -201,7 +202,7 @@ public class Parasite : MonoBehaviour
     {
         float t = 0;
         Quicktime.EnableQuicktime(dif, 1);
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSecondsRealtime(0.2f);
         while ((t += Time.deltaTime) < Quicktime.instance.maxTime && !qteFailed)
         {
 

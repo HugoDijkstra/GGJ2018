@@ -284,6 +284,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Ai\AiEntity.cs" />
     <Compile Include="Assets\Scripts\Ai\AiManager.cs" />
+    <Compile Include="Assets\Scripts\Ai\AISpawner.cs" />
     <Compile Include="Assets\Scripts\Ai\AiSystem.cs" />
     <Compile Include="Assets\Scripts\Ai\Entity.cs" />
     <Compile Include="Assets\Scripts\Map.cs" />

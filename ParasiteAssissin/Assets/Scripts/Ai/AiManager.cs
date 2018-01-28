@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AiManager : MonoBehaviour {
+public class AiManager : MonoBehaviour
+{
     static public AiManager instance;
-    
+
     public ArrayList _aiEntitys;
-    
+
     public AiSystem _aiSystem;
 
-	void Awake () {
+    void Awake()
+    {
         // create instance
-        if (instance == null){
+        if (instance == null)
+        {
             instance = this;
-        }else {
+        }
+        else
+        {
             Destroy(this);
             return;
         }
@@ -21,27 +26,33 @@ public class AiManager : MonoBehaviour {
         _aiSystem = this.GetComponent<AiSystem>();
         instance._aiEntitys = new ArrayList();
     }
-	
-	void Update () {
-		
-	}
 
-    static public void AddAiEntity(AiEntity e) {
+    void Update()
+    {
+
+    }
+
+    static public void AddAiEntity(AiEntity e)
+    {
         instance._aiEntitys.Add(e);
 
         e.OnEndOfPath += instance.OnEndOfPath;
         e.OnErrorInPath += instance.OnErrorInPath;
         e.OnDoneInspection += instance.OnDoneInspection;
 
-        if (e.getEntityInfo().IsDoctor) {
+        if (e.getEntityInfo().IsDoctor)
+        {
             e.OnAtTile += instance.OnAtTile;
         }
     }
 
-    private AiEntity getSickEntityInRange(AiEntity e) {
+    private AiEntity getSickEntityInRange(AiEntity e)
+    {
         ArrayList list = new ArrayList();
-        for (int i = 0; i < _aiEntitys.Count; i++){
-            if (Vector2.Distance(e.transform.position, ((AiEntity)_aiEntitys[i]).transform.position) < 10) {
+        for (int i = 0; i < _aiEntitys.Count; i++)
+        {
+            if (Vector2.Distance(e.transform.position, ((AiEntity)_aiEntitys[i]).transform.position) < 10)
+            {
                 list.Add(_aiEntitys[i]);
             }
         }
@@ -49,21 +60,32 @@ public class AiManager : MonoBehaviour {
         return (AiEntity)list[UnityEngine.Random.Range(0, list.Count - 1)];
     }
 
-    private void OnEndOfPath(AiEntity e) {
+    private void OnEndOfPath(AiEntity e)
+    {
         this.getPath(e);
     }
 
-    static public void SetNewRandomPath(AiEntity e) {
+    static public void SetNewRandomPath(AiEntity e)
+    {
         e.SetPath(instance._aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
     }
 
-    private void OnErrorInPath(AiEntity e){
+    private void OnErrorInPath(AiEntity e)
+    {
+        if (e.GetCurrentTile() != null)
+        {
+            e.SetPath(_aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
+            return;
+        }
         e.SetPath(_aiSystem.CalculateRandomPathByTier(new Vector2(1, 1), e.getEntityInfo().Tier));
     }
 
-    private void OnAtTile(AiEntity e, TileObject t) {
-        if (e.getEntityInfo().IsDoctor) {
-            if (e.getTarget() == null) {
+    private void OnAtTile(AiEntity e, TileObject t)
+    {
+        if (e.getEntityInfo().IsDoctor)
+        {
+            if (e.getTarget() == null)
+            {
                 e.setTarget(this.getSickEntityInRange(e));
             }
 
@@ -71,14 +93,18 @@ public class AiManager : MonoBehaviour {
         }
     }
 
-    private void getPath(AiEntity e) {
-        if (e.GetCurrentTile() == null) {
+    private void getPath(AiEntity e)
+    {
+        if (e.GetCurrentTile() == null)
+        {
             return;
         }
 
         // for docter calculate path to sick entity
-        if (e.getEntityInfo().IsDoctor) {
-            if (e.getTarget() == null) {
+        if (e.getEntityInfo().IsDoctor)
+        {
+            if (e.getTarget() == null)
+            {
                 e.setTarget(this.getSickEntityInRange(e));
             }
 
@@ -90,12 +116,15 @@ public class AiManager : MonoBehaviour {
         e.SetPath(_aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
     }
 
-    private void OnDoneInspection(AiEntity e, TileObject t) {
+    private void OnDoneInspection(AiEntity e, TileObject t)
+    {
         this.getPath(e);
     }
 
-    private void doctorCanInspect(AiEntity d, AiEntity t) {
-        if (Vector2.Distance(d.transform.position, t.transform.position) < 1.2f) {
+    private void doctorCanInspect(AiEntity d, AiEntity t)
+    {
+        if (Vector2.Distance(d.transform.position, t.transform.position) < 1.2f)
+        {
             d.WaitForInspection();
             t.WaitForInspection();
         }
