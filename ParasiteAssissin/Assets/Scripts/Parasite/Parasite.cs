@@ -76,8 +76,6 @@ public class Parasite : MonoBehaviour
             Camera.main.transform.position = new Vector3 (Camera.main.transform.position.x + Random.value * Time.deltaTime * shakePower, Camera.main.transform.position.y + Random.value * Time.deltaTime * shakePower, Camera.main.transform.position.z);
         }*/
         arrow.SetActive(stuckOn != null);
-        if (target == null)
-            target = FindObjectOfType<Enemy>();
         //arrowRenderer.color = new Color(1, 1, 1, 1f / Vector2.Distance(transform.position, target.transform.position));
         print(arrowRenderer.color);
         if (stuckOn != null)
@@ -119,12 +117,16 @@ public class Parasite : MonoBehaviour
                 // Get enemy script
                 Enemy e = rayhit.collider.gameObject.GetComponent<Enemy>();
                 if (e != null)
-                    // If the mouse is over that enemy set it as our current target
-                    if (e.mouseOver)
-                    {
-                        currentTarget = rayhit.collider.gameObject;
-                        StartCoroutine(attack(transform.position, e, e.ai._entityInfo.Tier + 2));
-                    }
+                {
+
+                    if (e.ai.getEntityInfo().Tier == 1 || e.ai.getEntityInfo().Tier * 3 <= PlayerLevelManager.instance.playerLevel)
+                        // If the mouse is over that enemy set it as our current target
+                        if (e.mouseOver)
+                        {
+                            currentTarget = rayhit.collider.gameObject;
+                            StartCoroutine(attack(transform.position, e, e.ai._entityInfo.Tier + 2));
+                        }
+                }
             }
         }
         RangeCircle.transform.localScale = Vector3.one * range * 2;

@@ -6,8 +6,8 @@ public class PlayerLevelManager : MonoBehaviour
 {
     public static PlayerLevelManager instance;
 
-    float exp = 0;
-    int playerLevel = 0;
+    public float exp;
+    public int playerLevel;
 
     public delegate void OnPlayerLevelUp();
     public delegate void DoneLeveling();
@@ -37,7 +37,7 @@ public class PlayerLevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (exp >= 200 + (50 * playerLevel * 1.4f))
+        if (exp >= 200 + (50 * playerLevel))
         {
             playerLevel++;
             onLevelUp.Invoke();

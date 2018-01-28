@@ -9,6 +9,7 @@ public class AISpawner : MonoBehaviour
     ArrayList usedTiles;
     [SerializeField]
     GameObject[] enemyTiers;
+    [SerializeField]
     int[] enemySpawns;
     bool hasgonethrough;
 
@@ -17,7 +18,6 @@ public class AISpawner : MonoBehaviour
     {
         hasgonethrough = false;
         usedTiles = new ArrayList();
-        enemySpawns = new int[] { 3, 2, 1 };
     }
 
     // Update is called once per frame
@@ -26,10 +26,9 @@ public class AISpawner : MonoBehaviour
         if (!hasgonethrough)
         {
             hasgonethrough = true;
-            for (int k = 0; k < enemySpawns.Length; k++)
+            for (int k = 0; k < 3; k++)
             {
-                int rand = Random.Range(0, enemySpawns[k]);
-                for (int i = 0; i < rand; i++)
+                for (int i = 0; i < enemySpawns[k]; i++)
                 {
                     ArrayList spawnableTiles = AiManager.instance._aiSystem.GetTilesByTier(k + 1);
                     int randomTile = Random.Range(0, spawnableTiles.Count);
