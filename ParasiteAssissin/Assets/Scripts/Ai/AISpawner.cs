@@ -17,7 +17,7 @@ public class AISpawner : MonoBehaviour
     {
         hasgonethrough = false;
         usedTiles = new ArrayList();
-        enemySpawns = new int[] { 3, 2, 1 };
+        enemySpawns = new int[] { 5, 3, 2 };
     }
 
     // Update is called once per frame

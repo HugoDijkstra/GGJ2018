@@ -6,7 +6,7 @@ using UnityEngine;
 public class AiEntity : MonoBehaviour {
 
     [SerializeField]
-    public Entity _entityInfo;
+    private Entity _entityInfo;
 
     private Queue<TileObject> _path;
     private TileObject _currentTile;
@@ -20,13 +20,19 @@ public class AiEntity : MonoBehaviour {
     public Action<AiEntity, TileObject> OnAtTile;
     public Action<AiEntity> OnEndOfPath;
 
-    public Action<AiEntity, TileObject> OnDoneInspection;
+    public Action<AiEntity> OnStartInspection;
+    public Action<AiEntity> OnDoneInspection;
     public Action<AiEntity> OnErrorInPath;
 
     private void Start() {
         _path = new Queue<TileObject>();
 
         AiManager.AddAiEntity(this);
+
+        if (_entityInfo.IsDoctor) {
+            StartCoroutine(doctorSearch());
+        }
+
         this.GetComponent<SpriteRenderer>().color = _entityInfo.color;
 	}
 	
@@ -115,6 +121,20 @@ public class AiEntity : MonoBehaviour {
         isInspecting = true;
         yield return new WaitForSeconds(5.0f);
         isInspecting = false;
-        OnDoneInspection(this, _currentTile);
+        this.target = null;
+        if (OnDoneInspection != null) {
+            OnDoneInspection(this);
+        }
+        if (_entityInfo.IsDoctor) {
+            StartCoroutine(doctorSearch());
+        }
+    }
+
+    private IEnumerator doctorSearch(){
+        yield return new WaitForSecondsRealtime(UnityEngine.Random.Range(20, 40));
+        print("done");
+        if (OnStartInspection != null){
+            OnStartInspection(this);
+        }
     }
 }

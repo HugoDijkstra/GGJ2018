@@ -40,10 +40,16 @@ public class AiManager : MonoBehaviour
         e.OnErrorInPath += instance.OnErrorInPath;
         e.OnDoneInspection += instance.OnDoneInspection;
 
+        // doctor
         if (e.getEntityInfo().IsDoctor)
         {
-            e.OnAtTile += instance.OnAtTile;
+            e.OnStartInspection = instance.OnStartInspection;
         }
+    }
+
+    static public void SetNewRandomPath(AiEntity e)
+    {
+        e.SetPath(instance._aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
     }
 
     private AiEntity getSickEntityInRange(AiEntity e)
@@ -51,7 +57,7 @@ public class AiManager : MonoBehaviour
         ArrayList list = new ArrayList();
         for (int i = 0; i < _aiEntitys.Count; i++)
         {
-            if (Vector2.Distance(e.transform.position, ((AiEntity)_aiEntitys[i]).transform.position) < 10)
+            if (!((AiEntity)_aiEntitys[i]).getEntityInfo().IsDoctor && Vector2.Distance(e.transform.position, ((AiEntity)_aiEntitys[i]).transform.position) < 10)
             {
                 list.Add(_aiEntitys[i]);
             }
@@ -65,11 +71,6 @@ public class AiManager : MonoBehaviour
         this.getPath(e);
     }
 
-    static public void SetNewRandomPath(AiEntity e)
-    {
-        e.SetPath(instance._aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
-    }
-
     private void OnErrorInPath(AiEntity e)
     {
         if (e.GetCurrentTile() != null)
@@ -81,14 +82,23 @@ public class AiManager : MonoBehaviour
     }
 
     private void OnAtTile(AiEntity e, TileObject t)
-    {
+    { // doctor
         if (e.getEntityInfo().IsDoctor)
         {
             if (e.getTarget() == null)
             {
                 e.setTarget(this.getSickEntityInRange(e));
             }
+            else
+            {
+                this.doctorCanInspect(e, e.getTarget());
+            }
 
+
+            if (e.GetCurrentTile().GetPosition() == e.getTarget().GetCurrentTile().GetPosition())
+            {
+                return;
+            }
             e.SetPath(_aiSystem.CalulatePathTo(e.GetCurrentTile().GetPosition(), e.getTarget().GetCurrentTile().GetPosition()));
         }
     }
@@ -100,34 +110,55 @@ public class AiManager : MonoBehaviour
             return;
         }
 
-        // for docter calculate path to sick entity
+        // doctor
+        //// for docter calculate path to sick entity
+        //if (e.getEntityInfo().IsDoctor) {
+        //    if (e.getTarget() == null) {
+        //        e.setTarget(this.getSickEntityInRange(e));
+        //    }
+
+        //    e.SetPath(_aiSystem.CalulatePathTo(e.GetCurrentTile().GetPosition(), e.getTarget().GetCurrentTile().GetPosition()));
+        //    return;
+        //}
+
+        // for normal calulate path to random tile
+        e.SetPath(_aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
+    }
+
+    private void OnStartInspection(AiEntity e)
+    {
         if (e.getEntityInfo().IsDoctor)
         {
             if (e.getTarget() == null)
             {
                 e.setTarget(this.getSickEntityInRange(e));
             }
+            else
+            {
+                this.doctorCanInspect(e, e.getTarget());
+            }
 
             e.SetPath(_aiSystem.CalulatePathTo(e.GetCurrentTile().GetPosition(), e.getTarget().GetCurrentTile().GetPosition()));
-            return;
+            e.OnAtTile += instance.OnAtTile;
         }
-
-        // for normal calulate path to random tiler
-        e.SetPath(_aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
     }
 
-    private void OnDoneInspection(AiEntity e, TileObject t)
-    {
-        this.getPath(e);
+    private void OnDoneInspection(AiEntity e)
+    { // doctor
+        e.SetPath(_aiSystem.CalculateRandomPathByTier(e.GetCurrentTile().GetPosition(), e.getEntityInfo().Tier));
+
+        if (e.getEntityInfo().IsDoctor)
+        {
+            e.OnAtTile -= instance.OnAtTile;
+        }
     }
 
     private void doctorCanInspect(AiEntity d, AiEntity t)
-    {
-        if (Vector2.Distance(d.transform.position, t.transform.position) < 1.2f)
+    { // doctor
+        if (Vector2.Distance(d.transform.position, t.transform.position) < 1.5f)
         {
-            d.WaitForInspection();
-            t.WaitForInspection();
+            StartCoroutine(d.WaitForInspection());
+            StartCoroutine(t.WaitForInspection());
         }
     }
-
 }

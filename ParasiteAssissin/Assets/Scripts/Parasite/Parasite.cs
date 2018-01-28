@@ -79,7 +79,7 @@ public class Parasite : MonoBehaviour
         if (target == null)
             target = FindObjectOfType<Enemy>();
         //arrowRenderer.color = new Color(1, 1, 1, 1f / Vector2.Distance(transform.position, target.transform.position));
-        print(arrowRenderer.color);
+        //print(arrowRenderer.color);
         if (stuckOn != null)
         {
             float angle = Mathf.Atan2(target.transform.position.y - transform.position.y, target.transform.position.x - transform.position.x) * Mathf.Rad2Deg;
@@ -123,7 +123,7 @@ public class Parasite : MonoBehaviour
                     if (e.mouseOver)
                     {
                         currentTarget = rayhit.collider.gameObject;
-                        StartCoroutine(attack(transform.position, e, e.ai._entityInfo.Tier + 2));
+                        StartCoroutine(attack(transform.position, e, e.ai.getEntityInfo().Tier + 2));
                     }
             }
         }
@@ -177,16 +177,16 @@ public class Parasite : MonoBehaviour
         if (!stuckOn.visited)
         {
             stuckOn.visited = true;
-            PlayerLevelManager.instance.addExp(25 * stuckOn.ai._entityInfo.Tier * stuckOn.ai._entityInfo.Tier);
+            PlayerLevelManager.instance.addExp(25 * stuckOn.ai.getEntityInfo().Tier * stuckOn.ai.getEntityInfo().Tier);
         }
 
-        foreach (TileObject tObj in AiManager.instance._aiSystem.GetTilesByTierHigher(e.ai._entityInfo.Tier))
+        foreach (TileObject tObj in AiManager.instance._aiSystem.GetTilesByTierHigher(e.ai.getEntityInfo().Tier))
         {
             BoxCollider2D bc2D = tObj.GetComponent<BoxCollider2D>();
             if (bc2D != null)
                 bc2D.enabled = true;
         }
-        foreach (TileObject tObj in AiManager.instance._aiSystem.GetTilesByTier(e.ai._entityInfo.Tier))
+        foreach (TileObject tObj in AiManager.instance._aiSystem.GetTilesByTier(e.ai.getEntityInfo().Tier))
         {
             BoxCollider2D bc2D = tObj.GetComponent<BoxCollider2D>();
             if (bc2D != null)
