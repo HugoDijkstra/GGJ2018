@@ -34,14 +34,14 @@ public class InfectManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        for (int i = 0; i < entityViruslist.Count; i++) {
-            //distance between player and entity
-            float dis = Vector2.Distance (((AiEntity)entityViruslist[i]).gameObject.transform.position, player.transform.position);
-            if (dis <= minDisplayDist) {
-                //call for the function setAlfa and put the distance in it
-                ((AiEntity)entityViruslist[i]).GetComponent<AIVirus> ().setAlfa (dis / 12);
-            }
-        }
+        //for (int i = 0; i < entityViruslist.Count; i++) {
+        //    //distance between player and entity
+        //    float dis = Vector2.Distance (((AiEntity)entityViruslist[i]).gameObject.transform.position, player.transform.position);
+        //    if (dis <= minDisplayDist) {
+        //        //call for the function setAlfa and put the distance in it
+        //        ((AiEntity)entityViruslist[i]).GetComponent<AIVirus> ().setAlfa (dis / 12);
+        //    }
+        //}
     }
 
     public static void addEntity (AIVirus e) {
