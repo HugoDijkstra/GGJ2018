@@ -308,6 +308,8 @@
     <Compile Include="Assets\Scripts\SkillTree\SkillConfig.cs" />
     <Compile Include="Assets\Scripts\SkillTree\SkillManager.cs" />
     <Compile Include="Assets\Scripts\SkillTree\SpeedSkill.cs" />
+    <Compile Include="Assets\Scripts\Virus\AIVirus.cs" />
+    <Compile Include="Assets\Scripts\Virus\InfectManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
