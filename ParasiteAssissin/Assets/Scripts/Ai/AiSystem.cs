@@ -234,6 +234,9 @@ public class AiSystem : MonoBehaviour
         while (currentNode != start)
         {
             path.Add(currentNode);
+            if (currentNode.parent == null) {
+                return new ArrayList();
+            }
             currentNode = currentNode.parent;
         }
         path.Reverse();
